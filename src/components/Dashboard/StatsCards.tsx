@@ -2,16 +2,14 @@ import { Transaction } from '@/lib/supabase';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { DollarSign, TrendingUp, Calendar, Receipt } from 'lucide-react';
 import { startOfMonth, endOfMonth } from 'date-fns';
+import { calculateTotalBalance } from '@/utils/transactions';
 
 interface StatsCardsProps {
   transactions: Transaction[];
 }
 
 export function StatsCards({ transactions }: StatsCardsProps) {
-  const totalExpenses = transactions.reduce(
-    (sum, t) => sum + parseFloat(t.amount.toString()),
-    0
-  );
+  const totalExpenses = calculateTotalBalance(transactions);
 
   const now = new Date();
   const monthStart = startOfMonth(now);

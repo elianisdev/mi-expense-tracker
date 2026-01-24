@@ -1,6 +1,30 @@
 # Expense Tracker
 
-A complete and professional expense tracking application built with React, TypeScript, Tailwind CSS, shadcn/ui, and Supabase.
+A complete and professional expense tracking application built with React, TypeScript, Tailwind CSS, shadcn/ui, and Supabase. Live demo: https://react-tailwind-expen-krl3.bolt.host
+
+## Screenshots
+
+**Initial**
+- Login: docs/screenshots/inicial/Login_image.png
+- Dashboard: docs/screenshots/inicial/dashboard_image.png
+- Add Transaction modal: docs/screenshots/inicial/NewTransaction_image.png
+
+![Login inicial](docs/screenshots/inicial/Login_image.png)
+![Dashboard inicial](docs/screenshots/inicial/dashboard_image.png)
+![Add Transaction inicial](docs/screenshots/inicial/NewTransaction_image.png)
+
+**Final**
+- Login: docs/screenshots/final/LoginFinal.png
+- Dashboard: docs/screenshots/final/DashboardFinal.png
+- Add Transaction modal: docs/screenshots/final/NuevaTransaccion.png
+- Edit Transaction modal: docs/screenshots/final/EditarTransaccion.png
+- Delete confirmation: docs/screenshots/final/EliminarTransaccion.png
+
+![Login final](docs/screenshots/final/LoginFinal.png)
+![Dashboard final](docs/screenshots/final/DashboardFinal.png)
+![Add Transaction final](docs/screenshots/final/NuevaTransaccion.png)
+![Edit Transaction](docs/screenshots/final/EditarTransaccion.png)
+![Delete confirmation](docs/screenshots/final/EliminarTransaccion.png)
 
 ## Features
 
@@ -21,14 +45,16 @@ npm install
 
 ### 2. Configure Supabase
 
-The application uses Supabase for authentication and database. Your Supabase instance is already configured with the necessary database tables.
-
-Create a `.env` file in the root directory with your Supabase credentials:
+Create a `.env` file in the root directory with your Supabase credentials (the URL must include `https://`):
 
 ```env
-VITE_SUPABASE_URL=your_supabase_url
+VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
+
+Add `.env.example` to the repo with the same variable names and placeholder values so others can configure quickly.
+
+If you see `Invalid supabaseUrl`, verify the URL starts with `https://`, matches your project, restart `npm run dev`, and try in an incognito window to avoid cached envs.
 
 ### 3. Run the Application
 
@@ -37,6 +63,12 @@ npm run dev
 ```
 
 The application will be available at `http://localhost:5173`
+
+### 4. Run Tests
+
+```bash
+npm test
+```
 
 ## Usage
 
@@ -103,6 +135,10 @@ The application includes the following expense categories:
 - Groceries
 - Other
 
+## Folder hints
+- Place screenshots under `docs/screenshots/inicial/` and `docs/screenshots/final/` using the names referenced above.
+- Keep your `.env` local (gitignored); commit only `.env.example`.
+
 ## Technology Stack
 
 - **Frontend**: React 18 + TypeScript
@@ -140,6 +176,9 @@ npm run build
 ```
 
 The production build will be created in the `dist` directory.
+
+## Author
+- Eliana Suancha Guzman
 
 ## License
 

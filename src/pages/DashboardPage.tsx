@@ -13,13 +13,13 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { TransactionForm } from '@/components/Dashboard/TransactionForm';
-import { TransactionList } from '@/components/Dashboard/TransactionList';
-import { Charts } from '@/components/Dashboard/Charts';
-import { Filters } from '@/components/Dashboard/Filters';
+import { ChartsSection } from '@/components/Dashboard/ChartsSection';
+import { TransactionsSection } from '@/components/Dashboard/TransactionsSection';
 import { StatsCards } from '@/components/Dashboard/StatsCards';
 import { exportToCSV } from '@/utils/exportCSV';
+import { filterTransactionsByCategory } from '@/utils/transactions';
 import { toast } from 'sonner';
-import { Plus, Download, LogOut, Wallet } from 'lucide-react';
+import { LogOut, Wallet } from 'lucide-react';
 
 export function DashboardPage() {
   const { user, signOut } = useAuth();
@@ -69,9 +69,7 @@ export function DashboardPage() {
       filtered = filtered.filter(t => t.date <= endDate);
     }
 
-    if (category && category !== 'all') {
-      filtered = filtered.filter(t => t.category === category);
-    }
+    filtered = filterTransactionsByCategory(filtered, category);
 
     setFilteredTransactions(filtered);
   }, [transactions, startDate, endDate, category]);
@@ -164,45 +162,22 @@ export function DashboardPage() {
       <div className="container mx-auto px-4 py-8 space-y-8">
         <StatsCards transactions={filteredTransactions} />
 
-        {transactions.length > 0 && <Charts transactions={filteredTransactions} />}
+        <ChartsSection transactions={filteredTransactions} />
 
-        <div className="flex flex-col sm:flex-row gap-3 justify-between items-start sm:items-center">
-          <h2 className="text-2xl font-bold">Transactions</h2>
-          <div className="flex gap-3 w-full sm:w-auto">
-            <Button
-              onClick={handleExport}
-              variant="outline"
-              className="flex-1 sm:flex-none bg-gradient-to-r from-blue-50 to-cyan-50 hover:from-blue-100 hover:to-cyan-100 border-blue-200"
-              disabled={filteredTransactions.length === 0}
-            >
-              <Download className="h-4 w-4 mr-2" />
-              Export CSV
-            </Button>
-            <Button
-              onClick={() => {
-                setSelectedTransaction(null);
-                setFormOpen(true);
-              }}
-              className="flex-1 sm:flex-none bg-gradient-to-r from-emerald-500 to-cyan-500 hover:from-emerald-600 hover:to-cyan-600 text-white shadow-lg hover:shadow-xl"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add Transaction
-            </Button>
-          </div>
-        </div>
-
-        <Filters
+        <TransactionsSection
+          transactions={filteredTransactions}
           startDate={startDate}
           endDate={endDate}
           category={category}
           onStartDateChange={setStartDate}
           onEndDateChange={setEndDate}
           onCategoryChange={setCategory}
-          onReset={handleResetFilters}
-        />
-
-        <TransactionList
-          transactions={filteredTransactions}
+          onResetFilters={handleResetFilters}
+          onExport={handleExport}
+          onAddTransaction={() => {
+            setSelectedTransaction(null);
+            setFormOpen(true);
+          }}
           onEdit={handleEdit}
           onDelete={(id) => {
             setTransactionToDelete(id);

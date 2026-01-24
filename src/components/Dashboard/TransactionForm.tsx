@@ -20,6 +20,7 @@ import {
 } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
+import { isValidAmount } from '@/utils/transactions';
 
 interface TransactionFormProps {
   open: boolean;
@@ -63,9 +64,22 @@ export function TransactionForm({ open, onOpenChange, onSuccess, transaction }: 
     setLoading(true);
 
     try {
+      const amount = parseFloat(formData.amount);
+      if (!isValidAmount(amount)) {
+        toast.error('Amount must be greater than 0');
+        setLoading(false);
+        return;
+      }
+
+      if (!formData.description.trim()) {
+        toast.error('Description is required');
+        setLoading(false);
+        return;
+      }
+
       const data = {
         user_id: user.id,
-        amount: parseFloat(formData.amount),
+        amount,
         category: formData.category,
         date: formData.date,
         description: formData.description,
